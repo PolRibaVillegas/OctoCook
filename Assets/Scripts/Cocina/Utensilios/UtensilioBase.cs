@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UtensilioBase : MonoBehaviour
 {//TODO cambiar a clase de base a olla/sarten/freidora/ns que más puede ser
-
-
     private int _state;
     private const int IDLE = 1;
     private const int COOKING = 2;
