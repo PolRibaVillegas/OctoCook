@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlanchaCortar : MonoBehaviour
@@ -15,7 +16,7 @@ public class PlanchaCortar : MonoBehaviour
     private IngredienteBase _onion; //TODO QUITAR --> esto, solo para testing inicial
     private IngredienteBase _ingridient;
 
-    private SpriteRenderer _sprite; //TODO repasar, sprite renderer del ingrediente que se corta
+    private GameObject _cosa;
 
     private bool _mouse = false; //TODO repasar
     private BoxCollider2D _box;
@@ -42,13 +43,19 @@ public class PlanchaCortar : MonoBehaviour
 
                 if (_timer >= _totalTimer)
                 {
+                    Debug.Log("_timer+=Time.deltaTime");
                     _timer = 0;
                     _state = FINISH;
+
+                    TransmutacionCortar.OnCookCookedReturn += TransmuteIngridient;
+                    OnCookCooked?.Invoke(_ingridient);
+                    TransmutacionCortar.OnCookCookedReturn -= TransmuteIngridient;
+
+                    _cosa.GetComponent<SpriteRenderer>().sprite = _ingridient.GetSprite();
                 }
                 break;
             case FINISH:
-                TransmutacionCortar.OnCookCookedReturn += TransmuteIngridient;
-                OnCookCooked?.Invoke(_ingridient);
+                
                 break;
             default:
 
@@ -59,6 +66,7 @@ public class PlanchaCortar : MonoBehaviour
     private void TransmuteIngridient(IngredienteBase ingridient)
     {
         _ingridient = ingridient;
+        //_cosa.GetComponent<SpriteRenderer>().sprite = _ingridient.GetSprite(); 
     }
 
     private void OnMouseEnter()
@@ -73,13 +81,8 @@ public class PlanchaCortar : MonoBehaviour
 
     private void OnClick()
     {
-        //TODO QUITAR
-        Debug.Log("Click");
-
         if (!_mouse)
             return;
-
-        Debug.Log("Inside");
 
         switch (_state)
         {
@@ -87,26 +90,28 @@ public class PlanchaCortar : MonoBehaviour
                 _state = COOKING;
                 _ingridient = _onion;
                 _totalTimer = _ingridient.GetTime();
-
-                CreateNewSpriteRenderer(_ingridient.GetSprite()); //TODO
+                Debug.Log("_cosa");
+                _cosa = CreateNewSpriteRenderer(_ingridient.GetSprite()); //TODO
 
 
                 break;
             case FINISH:
                 _state = IDLE;
-                _ingridient = null;
-                _sprite = null;
+                //_ingridient = null;
+                //TODO poner gameObject null
                 break;
         }
     }
-    private void CreateNewSpriteRenderer(Sprite newSprite)
+    private GameObject CreateNewSpriteRenderer(Sprite newSprite)
     {
         GameObject _ingridient = new GameObject("ExtraSprite");
         _ingridient.transform.position = transform.position; // Opcional: Ajustar posición al objeto actual
-        _ingridient.transform.parent = transform; // Opcional: Hacerlo hijo de este objeto
+        //_ingridient.transform.parent = transform; // Opcional: Hacerlo hijo de este objeto
 
         SpriteRenderer newSpriteRenderer = _ingridient.AddComponent<SpriteRenderer>();
         newSpriteRenderer.sprite = newSprite;
         newSpriteRenderer.sortingOrder = 1; // Asegura que se dibuje sobre el objeto base
+
+        return _ingridient;
     }
 }

@@ -20,6 +20,7 @@ public class TransmutacionCortar : MonoBehaviour
 
     private void DiccionarioComidaCortada(IngredienteBase ingridient)
     {
+        Debug.Log(ingridient.name);
         switch (ingridient.name)
         {
             case "Onion":
