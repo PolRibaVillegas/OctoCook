@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlanchaCortar : MonoBehaviour
@@ -15,19 +16,23 @@ public class PlanchaCortar : MonoBehaviour
     private IngredienteBase _onion; //TODO QUITAR --> esto, solo para testing inicial
     private IngredienteBase _ingridient;
 
-    private SpriteRenderer _sprite; //TODO repasar, sprite renderer del ingrediente que se corta
-
     private bool _mouse = false; //TODO repasar
+    
     private BoxCollider2D _box;
+    private SpriteRenderer _sp;
 
     public delegate void OnCookCookedDelegate(IngredienteBase ingrediente);
     public static event OnCookCookedDelegate OnCookCooked;
 
     void Start()
     {
-        _box = GetComponent<BoxCollider2D>();
         _state = IDLE;
         _timer = 0;
+        
+        _ingridient.AddComponent<Transform>();
+
+        _box = GetComponent<BoxCollider2D>();
+        _sp = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -44,11 +49,14 @@ public class PlanchaCortar : MonoBehaviour
                 {
                     _timer = 0;
                     _state = FINISH;
+
+                    TransmutacionCortar.OnCookCookedReturn += TransmuteIngridient;
+                    OnCookCooked?.Invoke(_ingridient);
+                    TransmutacionCortar.OnCookCookedReturn -= TransmuteIngridient;
                 }
                 break;
             case FINISH:
-                TransmutacionCortar.OnCookCookedReturn += TransmuteIngridient;
-                OnCookCooked?.Invoke(_ingridient);
+                
                 break;
             default:
 
@@ -64,11 +72,13 @@ public class PlanchaCortar : MonoBehaviour
     private void OnMouseEnter()
     {
         _mouse = true;
+        _sp.color = Color.gray;
     }
 
     private void OnMouseExit()
     {
         _mouse = false;
+        _sp.color = Color.white;
     }
 
     private void OnClick()
@@ -90,18 +100,15 @@ public class PlanchaCortar : MonoBehaviour
 
                 CreateNewSpriteRenderer(_ingridient.GetSprite()); //TODO
 
-
                 break;
             case FINISH:
                 _state = IDLE;
-                _ingridient = null;
-                _sprite = null;
+                Destroy(_ingridient);
                 break;
         }
     }
     private void CreateNewSpriteRenderer(Sprite newSprite)
     {
-        GameObject _ingridient = new GameObject("ExtraSprite");
         _ingridient.transform.position = transform.position; // Opcional: Ajustar posición al objeto actual
         _ingridient.transform.parent = transform; // Opcional: Hacerlo hijo de este objeto
 
