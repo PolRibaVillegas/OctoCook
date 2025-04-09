@@ -109,8 +109,8 @@ public class PlanchaCortar : MonoBehaviour
     }
     private void CreateNewSpriteRenderer(Sprite newSprite)
     {
-        _ingridient.transform.position = transform.position; // Opcional: Ajustar posición al objeto actual
-        _ingridient.transform.parent = transform; // Opcional: Hacerlo hijo de este objeto
+        _ingridient.GetComponent<Transform>().position = transform.position; // Opcional: Ajustar posición al objeto actual
+        _ingridient.GetComponent<Transform>().position.parent = transform; // Opcional: Hacerlo hijo de este objeto
 
         SpriteRenderer newSpriteRenderer = _ingridient.AddComponent<SpriteRenderer>();
         newSpriteRenderer.sprite = newSprite;
