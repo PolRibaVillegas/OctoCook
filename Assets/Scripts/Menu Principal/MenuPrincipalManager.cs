@@ -3,10 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuPrincipalManager : MonoBehaviour
 {
-
     private SpriteRenderer _sp;
-    private bool _dentro = false; //TODO comprovar si realmente está dentro o no al entrar en el menú
-
+    private bool _dentro = false;
 
     void Start()
     {
@@ -29,7 +27,6 @@ public class MenuPrincipalManager : MonoBehaviour
     {
         if (_dentro)
         {
-            Debug.Log("has clicado encima del pulpo");
             SceneManager.LoadScene("CocinaCore");
         }
     }

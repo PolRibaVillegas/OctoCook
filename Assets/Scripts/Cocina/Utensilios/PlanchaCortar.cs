@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlanchaCortar : MonoBehaviour
@@ -12,27 +13,23 @@ public class PlanchaCortar : MonoBehaviour
     private float _timer;
     private float _totalTimer;
 
-    [SerializeField]
-    private IngredienteBase _onion; //TODO QUITAR --> esto, solo para testing inicial
-    private IngredienteBase _ingridient;
+    //INFO este es el gameObject que se corta en la tabla de cortar, es un gameObject hijo de la tabla y se rellena cuando el jugador pone un ingrediente en la tabla y se bacia cuando se ha cocinado y el jugador lo saca de la tabla
+    private GameObject _ingridient;
 
     private bool _mouse = false; //TODO repasar
-    
+
     private BoxCollider2D _box;
     private SpriteRenderer _sp;
-
-    public delegate void OnCookCookedDelegate(IngredienteBase ingrediente);
-    public static event OnCookCookedDelegate OnCookCooked;
 
     void Start()
     {
         _state = IDLE;
         _timer = 0;
-        
-        _ingridient.AddComponent<Transform>();
 
         _box = GetComponent<BoxCollider2D>();
         _sp = GetComponent<SpriteRenderer>();
+
+        _ingridient = this.transform.Find("ingrediente").gameObject;
     }
 
     void Update()
@@ -40,9 +37,10 @@ public class PlanchaCortar : MonoBehaviour
         switch (_state)
         {
             case IDLE:
-
+                //doing idle animation
                 break;
             case COOKING:
+                //doing cooking animation
                 _timer += Time.deltaTime;
 
                 if (_timer >= _totalTimer)
@@ -50,23 +48,17 @@ public class PlanchaCortar : MonoBehaviour
                     _timer = 0;
                     _state = FINISH;
 
-                    TransmutacionCortar.OnCookCookedReturn += TransmuteIngridient;
-                    OnCookCooked?.Invoke(_ingridient);
-                    TransmutacionCortar.OnCookCookedReturn -= TransmuteIngridient;
+                    _ingridient.GetComponent<Ingrediente>().ChangeIngrediente(DiccionarioComidaCortada(_ingridient.GetComponent<Ingrediente>().GetIngrediente()));
+                    _ingridient.GetComponent<SpriteRenderer>().sprite = _ingridient.GetComponent<Ingrediente>().GetIngrediente().GetSprite();
                 }
                 break;
             case FINISH:
-                
+                //doing finish animation
                 break;
             default:
-
+                Debug.Log("wtf is this cut table state?");
                 break;
         }
-    }
-
-    private void TransmuteIngridient(IngredienteBase ingridient)
-    {
-        _ingridient = ingridient;
     }
 
     private void OnMouseEnter()
@@ -83,37 +75,44 @@ public class PlanchaCortar : MonoBehaviour
 
     private void OnClick()
     {
-        //TODO QUITAR
-        Debug.Log("Click");
-
-        if (!_mouse)
-            return;
-
-        Debug.Log("Inside");
-
         switch (_state)
         {
             case IDLE:
                 _state = COOKING;
-                _ingridient = _onion;
-                _totalTimer = _ingridient.GetTime();
-
-                CreateNewSpriteRenderer(_ingridient.GetSprite()); //TODO
-
+                //_totalTimer = _ingridient.GetTime();
+                //TODO mostrar el sprite del ingrediente actual
                 break;
             case FINISH:
                 _state = IDLE;
-                Destroy(_ingridient);
+                //TODO dar el objeto al jugador
                 break;
         }
     }
-    private void CreateNewSpriteRenderer(Sprite newSprite)
-    {
-        _ingridient.GetComponent<Transform>().position = transform.position; // Opcional: Ajustar posición al objeto actual
-        _ingridient.GetComponent<Transform>().position.parent = transform; // Opcional: Hacerlo hijo de este objeto
 
-        SpriteRenderer newSpriteRenderer = _ingridient.AddComponent<SpriteRenderer>();
-        newSpriteRenderer.sprite = newSprite;
-        newSpriteRenderer.sortingOrder = 1; // Asegura que se dibuje sobre el objeto base
+    //TODO método en el que el jugador arrastra un ingrediente y lo suelta justo dentro de la tabla
+    private void StartCooking(IngredienteBase ingridient)
+    {
+        if (_state != IDLE)
+            return;
+        
+        _ingridient.GetComponent<Ingrediente>().ChangeIngrediente(ingridient);
+        _ingridient.GetComponent<SpriteRenderer>().sprite = _ingridient.GetComponent<Ingrediente>().GetIngrediente().GetSprite();
+        _totalTimer = _ingridient.GetComponent<Ingrediente>().GetIngrediente().GetTime();
+    }
+
+    //TODO todos los posibles resultados después de añadir un ingrediente
+
+    [SerializeField]
+    private IngredienteBase _cutedOnion;
+
+    private IngredienteBase DiccionarioComidaCortada(IngredienteBase ingridient)
+    {
+        switch (ingridient.name)
+        {
+            case "Onion":
+                return _cutedOnion;
+            default:
+                return null;
+        }
     }
 }
