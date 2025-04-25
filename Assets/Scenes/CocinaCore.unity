@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 412287412}
   - component: {fileID: 412287411}
   m_Layer: 0
-  m_Name: ingrediente
+  m_Name: ingridient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d517a3f00bbd12344b9beddf8ce4af34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ingrediente: {fileID: 11400000, guid: 06714b3e20a5efd4c8a296dd711b83fc, type: 2}
+  _ingridient: {fileID: 0}
 --- !u!212 &412287412
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -536,7 +536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027431174b5bfbe4f999b05f89595c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cutedOnion: {fileID: 0}
+  _onion: {fileID: 0}
+  _cutedOnion: {fileID: 11400000, guid: 1b5e43d894cd5964c9fb08c4f02d8bf2, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
