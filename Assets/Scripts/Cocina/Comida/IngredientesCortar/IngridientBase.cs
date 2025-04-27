@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "IngredienteBase", menuName = "Scriptable Objects/IngredienteBase")]
-public class IngredienteBase : ScriptableObject
+public class IngridientBase : ScriptableObject
 {
     [SerializeField]
     private Sprite _sprite;
@@ -20,26 +20,26 @@ public class IngredienteBase : ScriptableObject
     }
 
     [SerializeField]
-    private int _metodo; 
+    private int _method; 
 
-    public static int _CORTAR = 1;
-    public static int _SARTEN = 2;
-    public static int _CAZUELA = 3;
-    public static int _FREIR = 4;
+    public static int _TABLE = 1;
+    public static int _PAN = 2;
+    public static int _CASSEROLE = 3;
+    public static int _FRY = 4;
 
-    public int GetMetodo()
+    public int GetMethod()
     {
-        return this._metodo;
+        return this._method;
     }
 
     [SerializeField]
-    private int _guardar;
+    private int _save;
 
-    public static int _NEVERA = 1;
-    public static int _CONGELADOR = 2;
+    public static int _FRIDGE = 1;
+    public static int _FREEZER = 2;
 
-    public int GetGuardar()
+    public int GetSave()
     {
-        return this._guardar;
+        return this._save;
     }
 }

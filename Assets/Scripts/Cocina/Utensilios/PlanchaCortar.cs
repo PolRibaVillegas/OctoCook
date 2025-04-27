@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlanchaCortar : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlanchaCortar : MonoBehaviour
     private const int IDLE = 1;
     private const int COOKING = 2;
     private const int FINISH = 3;
+    private const int MOVING = 4;
 
     private float _timer;
     private float _totalTimer;
@@ -28,7 +30,7 @@ public class PlanchaCortar : MonoBehaviour
         _box = GetComponent<BoxCollider2D>();
         _sp = GetComponent<SpriteRenderer>();
 
-        _ingridient = this.transform.Find("ingridient").gameObject;
+        _ingridient = this.transform.Find("Ingridient").gameObject;
     }
 
     void Update()
@@ -57,6 +59,15 @@ public class PlanchaCortar : MonoBehaviour
             case FINISH:
                 //doing finish animation
                 break;
+            case MOVING:
+                //doing moving animation
+                //Vector3 position = this.transform.position;
+                Vector3 newPosition = Input.mousePosition;
+                newPosition = Camera.main.ScreenToWorldPoint(newPosition);
+                newPosition.z = this.transform.position.z;
+                //newPosition = newPosition - position;
+                this.transform.position = newPosition;
+                break;
         }
     }
 
@@ -81,7 +92,7 @@ public class PlanchaCortar : MonoBehaviour
 
     }
 
-    private void OnClick()
+    private void OnLClick()
     {
         if (!_mouse)
             return;
@@ -107,12 +118,31 @@ public class PlanchaCortar : MonoBehaviour
                 _ingridient.GetComponent<Ingridient>().SetIngridient(null);
                 _ingridient.GetComponent<SpriteRenderer>().sprite = null;
                 _ingridient.GetComponent<SpriteRenderer>().color = Color.white;
+
+                _sp.color = Color.gray;
                 break;
         }
     }
 
+    private void OnRClickPress()
+    {
+        if (!_mouse||_state != IDLE)
+            return;
+
+        _state = MOVING;
+        //TODOcambiar color o algo
+    }
+
+    private void OnRClickRelease()
+    {
+        if (_state != MOVING)
+            return;
+
+        _state = IDLE;
+    }
+
     //TODO método en el que el jugador arrastra un ingrediente y lo suelta justo dentro de la tabla
-    private void StartCooking(IngredienteBase ingridient)
+    private void StartCooking(IngridientBase ingridient)
     {
         if (_state != IDLE)
             return;
@@ -129,12 +159,12 @@ public class PlanchaCortar : MonoBehaviour
     //TODO todos los posibles resultados después de añadir un ingrediente
 
     [SerializeField]
-    private IngredienteBase _onion;
+    private IngridientBase _onion;
 
     [SerializeField]
-    private IngredienteBase _cutedOnion;
+    private IngridientBase _cutedOnion;
 
-    private IngredienteBase DiccionarioComidaCortada(IngredienteBase ingridient)
+    private IngridientBase DiccionarioComidaCortada(IngridientBase ingridient)
     {
         switch (ingridient.name)
         {

@@ -6,9 +6,27 @@
             "id": "1cca70e9-8cea-403a-8515-db974281171c",
             "actions": [
                 {
-                    "name": "Click",
+                    "name": "LClick",
                     "type": "Button",
                     "id": "f7c4581a-c675-4489-8e54-feb9c19ab5db",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RClickPress",
+                    "type": "Button",
+                    "id": "8b4e2d2f-f6c5-4e8b-ba2f-0159cd7c3184",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RClickRelease",
+                    "type": "Button",
+                    "id": "3bc2691b-b43e-4cde-98f1-c946e793068c",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -23,7 +41,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Click",
+                    "action": "LClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba652113-1cfb-479d-9e10-28d78a6f55f3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RClickPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a09421d5-8c1c-4d80-8481-e50f57921915",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RClickRelease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

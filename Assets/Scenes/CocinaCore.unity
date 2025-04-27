@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 319116253}
   - component: {fileID: 319116256}
   m_Layer: 0
-  m_Name: camara
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 412287412}
   - component: {fileID: 412287411}
   m_Layer: 0
-  m_Name: ingridient
+  m_Name: Ingridient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 1926268664}
   - component: {fileID: 1926268665}
   m_Layer: 0
-  m_Name: tabla
+  m_Name: CutableTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -536,11 +536,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027431174b5bfbe4f999b05f89595c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onion: {fileID: 0}
+  _onion: {fileID: 11400000, guid: 06714b3e20a5efd4c8a296dd711b83fc, type: 2}
   _cutedOnion: {fileID: 11400000, guid: 1b5e43d894cd5964c9fb08c4f02d8bf2, type: 2}
+--- !u!1 &1966681458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1966681459}
+  m_Layer: 0
+  m_Name: MovIngridient
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1966681459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966681458}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 319116255}
   - {fileID: 1926268662}
+  - {fileID: 1966681459}

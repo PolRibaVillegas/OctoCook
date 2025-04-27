@@ -3,14 +3,14 @@ using UnityEngine;
 public class Ingridient : MonoBehaviour
 {
     [SerializeField]
-    private IngredienteBase _ingridient;
+    private IngridientBase _ingridient;
 
-    public IngredienteBase GetIngridient()
+    public IngridientBase GetIngridient()
     {
         return _ingridient;
     }
 
-    public void SetIngridient(IngredienteBase Ingridient)
+    public void SetIngridient(IngridientBase Ingridient)
     {
         _ingridient = Ingridient;
     }
