@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a77b683bd7f64f148a1ecefdcb27b51c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5470478f04ea29140a1c15dd592f97ff, type: 3}
   m_Name: Onion
   m_EditorClassIdentifier: 
   _sprite: {fileID: -1543966080274696936, guid: f60466356f96df74e9fdc041eb8db344, type: 3}
   _time: 3
-  _metodo: 1
-  _guardar: 1
+  _method: 1
+  _save: 1

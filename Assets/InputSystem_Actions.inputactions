@@ -6,12 +6,21 @@
             "id": "1cca70e9-8cea-403a-8515-db974281171c",
             "actions": [
                 {
-                    "name": "LClick",
+                    "name": "LClickPress",
                     "type": "Button",
                     "id": "f7c4581a-c675-4489-8e54-feb9c19ab5db",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LClickRelease",
+                    "type": "Button",
+                    "id": "c8513fe1-bb28-4b03-aee0-7a6c35a03646",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
                 },
                 {
@@ -41,7 +50,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LClick",
+                    "action": "LClickPress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -64,6 +73,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "RClickRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "659f6b3a-6ac2-4be5-8c49-4ecae33ac93f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LClickRelease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

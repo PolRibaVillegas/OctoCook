@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlanchaCortar : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PlanchaCortar : MonoBehaviour
 
     private bool _mouse = false;
 
+    private MovibleIngridient _movIngridient;
+
+    private Rigidbody2D _rb;
     private BoxCollider2D _box;
     private SpriteRenderer _sp;
 
@@ -26,11 +30,13 @@ public class PlanchaCortar : MonoBehaviour
     {
         _state = IDLE;
         _timer = 0;
-
+        
+        _rb = GetComponent<Rigidbody2D>();
         _box = GetComponent<BoxCollider2D>();
         _sp = GetComponent<SpriteRenderer>();
 
         _ingridient = this.transform.Find("Ingridient").gameObject;
+        _movIngridient = null;
     }
 
     void Update()
@@ -89,39 +95,50 @@ public class PlanchaCortar : MonoBehaviour
         }
         else if (_state == FINISH)
             _ingridient.GetComponent<SpriteRenderer>().color = Color.white;
-
     }
 
-    private void OnLClick()
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ingridient")
+        {
+            _movIngridient = collision.gameObject.GetComponent<MovibleIngridient>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ingridient")
+        {
+            _movIngridient = null;
+        }
+    }
+
+    private void OnLClickPress()
     {
         if (!_mouse)
             return;
 
-        switch (_state)
+        if (_state == FINISH)
         {
-            case IDLE:
-                _state = COOKING;
+            _state = IDLE;
+            //TODO dar el objeto al jugador
 
-                //introducir el ingrediente, en el testing es una cebollaaah
-                _ingridient.GetComponent<Ingridient>().SetIngridient(_onion);
-                //añadir la imagen del ingrediente
-                _ingridient.GetComponent<SpriteRenderer>().sprite = _ingridient.GetComponent<Ingridient>().GetIngridient().GetSprite();
+            _ingridient.GetComponent<Ingridient>().SetIngridient(null);
+            _ingridient.GetComponent<SpriteRenderer>().sprite = null;
+            _ingridient.GetComponent<SpriteRenderer>().color = Color.white;
 
-                _totalTimer = _ingridient.GetComponent<Ingridient>().GetIngridient().GetTime();
-
-                _sp.color = Color.white;
-                break;
-            case FINISH:
-                _state = IDLE;
-                //TODO dar el objeto al jugador
-
-                _ingridient.GetComponent<Ingridient>().SetIngridient(null);
-                _ingridient.GetComponent<SpriteRenderer>().sprite = null;
-                _ingridient.GetComponent<SpriteRenderer>().color = Color.white;
-
-                _sp.color = Color.gray;
-                break;
+            _sp.color = Color.gray;
         }
+    }
+
+    private void OnLClickRelease()
+    {
+        if (_movIngridient == null)
+            return;
+
+        StartCooking(_movIngridient.getIngridient());
+
+        Destroy(_movIngridient.gameObject);
     }
 
     private void OnRClickPress()
@@ -158,8 +175,14 @@ public class PlanchaCortar : MonoBehaviour
 
     //TODO todos los posibles resultados después de añadir un ingrediente
 
-    [SerializeField]
-    private IngridientBase _onion;
+    //[SerializeField]
+    //private IngridientBase _cuted01;
+
+    //[SerializeField]
+    //private IngridientBase _cuted02;
+
+    //[SerializeField]
+    //private IngridientBase _cuted03;
 
     [SerializeField]
     private IngridientBase _cutedOnion;

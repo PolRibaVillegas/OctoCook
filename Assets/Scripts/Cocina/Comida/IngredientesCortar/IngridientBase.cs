@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "IngredienteBase", menuName = "Scriptable Objects/IngredienteBase")]
+[CreateAssetMenu(fileName = "IngridientBase", menuName = "Scriptable Objects/IngridientBase")]
 public class IngridientBase : ScriptableObject
 {
     [SerializeField]
