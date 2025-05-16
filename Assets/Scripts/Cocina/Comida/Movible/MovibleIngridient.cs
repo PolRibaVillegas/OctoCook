@@ -21,8 +21,12 @@ public class MovibleIngridient : MonoBehaviour
         _state = _IDLE;
 
         _sp = GetComponent<SpriteRenderer>();
-        _sp.sprite = _ingridient.GetSprite();
-        _method = _ingridient.GetMethod();
+
+        if (_ingridient != null)
+        {
+            _sp.sprite = _ingridient.GetSprite();
+            _method = _ingridient.GetMethod();
+        }
     }
 
     private void Update()
@@ -48,7 +52,10 @@ public class MovibleIngridient : MonoBehaviour
 
         _mouse = true;
 
-        _sp.color = Color.gray;
+        if (_sp != null)
+            _sp.color = Color.gray;
+        else
+            _sp = GetComponent<SpriteRenderer>();
     }
 
     private void OnMouseExit()
@@ -77,4 +84,20 @@ public class MovibleIngridient : MonoBehaviour
     {
         return this._ingridient;
     }
+
+    public void setIngridient(IngridientBase ingridient)
+    {
+        _sp = GetComponent<SpriteRenderer>();
+
+        this._ingridient = null;
+        this._ingridient = ingridient;
+        this._method = ingridient.GetMethod();
+        this._sp.sprite = ingridient.GetSprite();
+    }
+
+    public void setStateMov()
+    {
+        _state = _MOVING;
+    }
+
 }

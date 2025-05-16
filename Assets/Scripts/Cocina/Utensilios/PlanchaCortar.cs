@@ -12,11 +12,14 @@ public class PlanchaCortar : MonoBehaviour
     private const int COOKING = 2;
     private const int FINISH = 3;
     private const int MOVING = 4;
+    private const int BLOCK = 5; //TODO quita pisha
 
     private float _timer;
     private float _totalTimer;
 
     private GameObject _ingridient;
+    [SerializeField]
+    private GameObject _movPrefab;
 
     private bool _mouse = false;
 
@@ -99,17 +102,34 @@ public class PlanchaCortar : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_state != IDLE)
+            return;
+
         if (collision.gameObject.tag == "Ingridient")
         {
             _movIngridient = collision.gameObject.GetComponent<MovibleIngridient>();
+            
+            if (!DiccionarioComidaAceptada(_movIngridient.getIngridient()))
+            {
+                _state = BLOCK;
+                _sp.color = Color.red;
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (_state == COOKING || _state == FINISH || _state == MOVING)
+            return;
+
         if (collision.gameObject.tag == "Ingridient")
         {
             _movIngridient = null;
+            if (!DiccionarioComidaAceptada(_movIngridient.getIngridient()))
+            {
+                _state = IDLE;
+                _sp.color = Color.white;
+            }
         }
     }
 
@@ -121,12 +141,14 @@ public class PlanchaCortar : MonoBehaviour
         if (_state == FINISH)
         {
             _state = IDLE;
-            //TODO dar el objeto al jugador
 
-            _ingridient.GetComponent<Ingridient>().SetIngridient(null);
-            _ingridient.GetComponent<SpriteRenderer>().sprite = null;
-            _ingridient.GetComponent<SpriteRenderer>().color = Color.white;
+            Instantiate(_movPrefab, new Vector3(this.transform.position.x, this.transform.position.y, -1), Quaternion.identity);
 
+            _movPrefab.GetComponent<MovibleIngridient>().setIngridient(_ingridient.GetComponent<Ingridient>().GetIngridient());
+            _movPrefab.GetComponent<MovibleIngridient>().setStateMov();
+            _movPrefab = null;
+
+            _ingridient.GetComponent<Ingridient>().DeleteIngridient();
             _sp.color = Color.gray;
         }
     }
@@ -135,6 +157,13 @@ public class PlanchaCortar : MonoBehaviour
     {
         if (_movIngridient == null)
             return;
+
+        if (!DiccionarioComidaAceptada(_movIngridient.getIngridient()))
+        {
+            Debug.Log("Pisha esto no va aquí");
+            _sp.color = Color.red;
+            return;
+        }
 
         StartCooking(_movIngridient.getIngridient());
 
@@ -195,6 +224,19 @@ public class PlanchaCortar : MonoBehaviour
                 return _cutedOnion;
             default:
                 return null;
+        }
+    }
+
+    private bool DiccionarioComidaAceptada(IngridientBase ingridient)
+    {
+        string _name = ingridient.name;
+        
+        switch (_name)
+        {
+            case "Onion":
+                return true;
+            default:
+                return false;
         }
     }
 }

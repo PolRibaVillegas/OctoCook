@@ -14,4 +14,12 @@ public class Ingridient : MonoBehaviour
     {
         _ingridient = Ingridient;
     }
+
+    public void DeleteIngridient()
+    {
+        _ingridient = null;
+
+        GetComponent<SpriteRenderer>().color = Color.white;
+        GetComponent<SpriteRenderer>().sprite = null;
+    }
 }

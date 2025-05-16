@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2450450946288096741}
   m_Layer: 0
   m_Name: CutableTable
-  m_TagString: Untagged
+  m_TagString: CutTable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027431174b5bfbe4f999b05f89595c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movPrefab: {fileID: 2470006979221750848, guid: 495cf117da8b76b45a2a21aaaeaa384b, type: 3}
   _cutedOnion: {fileID: 11400000, guid: 1b5e43d894cd5964c9fb08c4f02d8bf2, type: 2}
 --- !u!1 &5693543513917821005
 GameObject:
